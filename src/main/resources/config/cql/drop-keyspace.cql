@@ -1,1 +1,1 @@
-DROP KEYSPACE IF EXISTS coregateway;
+DROP KEYSPACE IF EXISTS gateway;

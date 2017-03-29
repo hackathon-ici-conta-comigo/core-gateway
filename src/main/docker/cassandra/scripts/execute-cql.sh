@@ -1,6 +1,6 @@
 #!/usr/bin/env bash
 
-KEYSPACE_NAME=coregateway
+KEYSPACE_NAME=gateway
 
 unset scripts
 declare -A scripts

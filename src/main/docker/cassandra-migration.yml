@@ -1,8 +1,8 @@
 version: '2'
 services:
-    coregateway-cassandra-migration:
+    gateway-cassandra-migration:
         environment:
-            - CASSANDRA_CONTACT_POINT=coregateway-cassandra
+            - CASSANDRA_CONTACT_POINT=gateway-cassandra
             - USER=docker-cassandra-migration
             # - DEBUG_LOG=1 # uncomment to show debug logs during the migration process
         build:

@@ -10,10 +10,10 @@
     </parent>
 
     <groupId>org.contacomigo.core.gateway</groupId>
-    <artifactId>coregateway</artifactId>
+    <artifactId>gateway</artifactId>
     <version>0.0.1-SNAPSHOT</version>
     <packaging>war</packaging>
-    <name>Coregateway</name>
+    <name>Gateway</name>
 
     <prerequisites>
         <maven>${maven.version}</maven>
@@ -406,6 +406,10 @@
             </exclusions>
         </dependency>
         <dependency>
+            <groupId>org.springframework.boot</groupId>
+            <artifactId>spring-boot-starter-websocket</artifactId>
+        </dependency>
+        <dependency>
             <groupId>org.springframework.security.oauth</groupId>
             <artifactId>spring-security-oauth2</artifactId>
         </dependency>
@@ -468,14 +472,6 @@
         </dependency>
         <dependency>
             <groupId>org.springframework.cloud</groupId>
-            <artifactId>spring-cloud-starter-eureka</artifactId>
-        </dependency>
-        <dependency>
-            <groupId>org.springframework.cloud</groupId>
-            <artifactId>spring-cloud-starter-config</artifactId>
-        </dependency>
-        <dependency>
-            <groupId>org.springframework.cloud</groupId>
             <artifactId>spring-cloud-security</artifactId>
         </dependency>
         <dependency>
@@ -509,6 +505,10 @@
         <dependency>
             <groupId>org.springframework.security</groupId>
             <artifactId>spring-security-data</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>org.springframework.security</groupId>
+            <artifactId>spring-security-messaging</artifactId>
         </dependency>
         <!-- cucumber -->
         <dependency>
@@ -737,9 +737,9 @@
                     <changeLogFile>src/main/resources/config/liquibase/master.xml</changeLogFile>
                     <diffChangeLogFile>src/main/resources/config/liquibase/changelog/${maven.build.timestamp}_changelog.xml</diffChangeLogFile>
                     <driver>org.h2.Driver</driver>
-                    <url>jdbc:h2:file:./target/h2db/db/coregateway</url>
+                    <url>jdbc:h2:file:./target/h2db/db/gateway</url>
                     <defaultSchemaName></defaultSchemaName>
-                    <username>coregateway</username>
+                    <username>gateway</username>
                     <password></password>
                     <referenceUrl>hibernate:spring:org.contacomigo.core.gateway.domain?dialect=org.hibernate.dialect.H2Dialect&amp;hibernate.physical_naming_strategy=org.springframework.boot.orm.jpa.hibernate.SpringPhysicalNamingStrategy&amp;hibernate.implicit_naming_strategy=org.springframework.boot.orm.jpa.hibernate.SpringImplicitNamingStrategy</referenceUrl>
                     <verbose>true</verbose>
@@ -785,7 +785,7 @@
                 <artifactId>docker-maven-plugin</artifactId>
                 <version>${docker-maven-plugin.version}</version>
                 <configuration>
-                    <imageName>coregateway</imageName>
+                    <imageName>gateway</imageName>
                     <dockerDirectory>src/main/docker</dockerDirectory>
                     <resources>
                         <resource>
@@ -837,8 +837,6 @@
                                         <goals>
                                             <goal>install-node-and-npm</goal>
                                             <goal>npm</goal>
-                                            <goal>bower</goal>
-                                            <goal>gulp</goal>
                                         </goals>
                                     </pluginExecutionFilter>
                                     <action>
@@ -864,6 +862,40 @@
             <properties>
                 <profile.swagger>,swagger</profile.swagger>
             </properties>
+        </profile>
+        <profile>
+            <id>webpack</id>
+            <build>
+                <plugins>
+                    <plugin>
+                        <groupId>com.github.eirslett</groupId>
+                        <artifactId>frontend-maven-plugin</artifactId>
+                        <version>${frontend-maven-plugin.version}</version>
+                        <executions>
+                            <execution>
+                                <id>install node and npm</id>
+                                <goals>
+                                    <goal>install-node-and-npm</goal>
+                                </goals>
+                                <configuration>
+                                    <nodeVersion>${node.version}</nodeVersion>
+                                    <npmVersion>${npm.version}</npmVersion>
+                                </configuration>
+                            </execution>
+                            <execution>
+                                <id>webpack build dev</id>
+                                <goals>
+                                    <goal>npm</goal>
+                                </goals>
+                                <phase>generate-resources</phase>
+                                <configuration>
+                                    <arguments>run webpack:build:dev</arguments>
+                                </configuration>
+                            </execution>
+                        </executions>
+                    </plugin>
+                </plugins>
+            </build>
         </profile>
         <profile>
             <id>dev</id>
@@ -965,31 +997,13 @@
                                 </configuration>
                             </execution>
                             <execution>
-                                <id>bower install</id>
+                                <id>webpack build prod</id>
                                 <goals>
-                                    <goal>bower</goal>
+                                    <goal>npm</goal>
                                 </goals>
+                                <phase>generate-resources</phase>
                                 <configuration>
-                                    <arguments>install --no-color</arguments>
-                                </configuration>
-                            </execution>
-                            <execution>
-                                <id>gulp build</id>
-                                <goals>
-                                    <goal>gulp</goal>
-                                </goals>
-                                <configuration>
-                                    <arguments>build --no-notification</arguments>
-                                </configuration>
-                            </execution>
-                            <execution>
-                                <id>gulp test</id>
-                                <goals>
-                                    <goal>gulp</goal>
-                                </goals>
-                                <phase>test</phase>
-                                <configuration>
-                                    <arguments>test --no-notification</arguments>
+                                    <arguments>run webpack:prod</arguments>
                                 </configuration>
                             </execution>
                         </executions>

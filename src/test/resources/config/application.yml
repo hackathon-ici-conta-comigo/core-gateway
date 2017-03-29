@@ -13,16 +13,10 @@
 # http://docs.spring.io/spring-boot/docs/current/reference/html/common-application-properties.html
 # ===================================================================
 
-eureka:
-    client:
-        enabled: false
-    instance:
-        appname: coregateway
-        instanceId: coregateway:${spring.application.instance-id:${random.value}}
 
 spring:
     application:
-        name: coregateway
+        name: gateway
     autoconfigure:
         exclude: org.springframework.boot.autoconfigure.data.cassandra.CassandraDataAutoConfiguration, org.springframework.boot.autoconfigure.cassandra.CassandraAutoConfiguration
     jackson:
@@ -40,7 +34,7 @@ spring:
                     destination: topic-jhipster
     datasource:
         type: com.zaxxer.hikari.HikariDataSource
-        url: jdbc:h2:mem:coregateway;DB_CLOSE_DELAY=-1
+        url: jdbc:h2:mem:gateway;DB_CLOSE_DELAY=-1
         name:
         username:
         password:

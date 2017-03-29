@@ -13,13 +13,6 @@
 # http://docs.spring.io/spring-boot/docs/current/reference/html/common-application-properties.html
 # ===================================================================
 
-eureka:
-    instance:
-        prefer-ip-address: true
-    client:
-        service-url:
-            defaultZone: http://admin:${jhipster.registry.password}@localhost:8761/eureka/
-
 spring:
     autoconfigure:
         exclude: org.springframework.boot.autoconfigure.cassandra.CassandraAutoConfiguration
@@ -39,7 +32,7 @@ spring:
                     destination: topic-jhipster
     datasource:
         type: com.zaxxer.hikari.HikariDataSource
-        url: jdbc:mysql://localhost:3306/coregateway?useUnicode=true&characterEncoding=utf8&useSSL=false
+        url: jdbc:mysql://localhost:3306/gateway?useUnicode=true&characterEncoding=utf8&useSSL=false
         username: root
         password:
         hikari:
@@ -58,7 +51,7 @@ spring:
             hibernate.cache.use_query_cache: false
             hibernate.generate_statistics: false
             hibernate.cache.region.factory_class: com.hazelcast.hibernate.HazelcastCacheRegionFactory
-            hibernate.cache.hazelcast.instance_name: coregateway
+            hibernate.cache.hazelcast.instance_name: gateway
             hibernate.cache.use_minimal_puts: true
             hibernate.cache.hazelcast.use_lite_member: true
     data:
@@ -66,7 +59,7 @@ spring:
             contactPoints: localhost
             protocolVersion: V4
             compression: LZ4
-            keyspaceName: coregateway
+            keyspaceName: gateway
             repositories:
                 enabled: false
     mail:
@@ -82,7 +75,7 @@ liquibase:
 
 # ===================================================================
 # To enable SSL, generate a certificate using:
-# keytool -genkey -alias coregateway -storetype PKCS12 -keyalg RSA -keysize 2048 -keystore keystore.p12 -validity 3650
+# keytool -genkey -alias gateway -storetype PKCS12 -keyalg RSA -keysize 2048 -keystore keystore.p12 -validity 3650
 #
 # You can also use Let's Encrypt:
 # https://maximilian-boehm.com/hp2121/Create-a-Java-Keystore-JKS-from-Let-s-Encrypt-Certificates.htm
@@ -95,7 +88,7 @@ liquibase:
 #        key-store: keystore.p12
 #        key-store-password: <your-password>
 #        keyStoreType: PKCS12
-#        keyAlias: coregateway
+#        keyAlias: gateway
 # ===================================================================
 server:
     port: 8080
@@ -125,7 +118,7 @@ jhipster:
             time-to-live-seconds: 3600
             backup-count: 1
     mail: # specific JHipster mail property, for standard properties see MailProperties
-        from: coregateway@localhost
+        from: gateway@localhost
         base-url: http://my-server-url-to-change # Modify according to your server's URL
     metrics: # DropWizard Metrics configuration, used by MetricsConfiguration
         jmx.enabled: true
@@ -133,7 +126,7 @@ jhipster:
             enabled: false
             host: localhost
             port: 2003
-            prefix: coregateway
+            prefix: gateway
         prometheus:
             enabled: false
             endpoint: /prometheusMetrics
