@@ -3,7 +3,7 @@ This application was generated using JHipster 4.1.1, you can find documentation 
 
 This is a "gateway" application intended to be part of a microservice architecture, please refer to the [Doing microservices with JHipster][] page of the documentation for more information.
 
-This application is configured for Service Discovery and Configuration with . On launch, it will refuse to start if it is not able to connect to .
+This application is configured for Service Discovery and Configuration with the JHipster-Registry. On launch, it will refuse to start if it is not able to connect to the JHipster-Registry at [http://localhost:8761](http://localhost:8761). For more information, read our documentation on [Service Discovery and Configuration with the JHipster-Registry][].
 
 ## Development
 
@@ -17,60 +17,22 @@ You will only need to run this command when dependencies change in [package.json
 
     npm install
 
-We use npm scripts and [Webpack][] as our build system.
+We use [Gulp][] as our build system. Install the Gulp command-line tool globally with:
 
+    npm install -g gulp-cli
 
 Run the following commands in two separate terminals to create a blissful development experience where your browser
 auto-refreshes when files change on your hard drive.
 
     ./mvnw
-    npm start
+    gulp
 
-[Npm][] is also used to manage CSS and JavaScript dependencies used in this application. You can upgrade dependencies by
-specifying a newer version in [package.json](package.json). You can also run `npm update` and `npm install` to manage dependencies.
-Add the `help` flag on any command to see how you can use it. For example, `npm help update`.
-
-The `npm run` command will list all of the scripts available to run for this project.
-
-### Managing dependencies
-
-For example, to add [Leaflet][] library as a runtime dependency of your application, you would run following command:
-
-    npm install --save --save-exact leaflet
-
-To benefit from TypeScript type definitions from [DefinitelyTyped][] repository in development, you would run following command:
-
-    npm install --save-dev --save-exact @types/leaflet
-
-Then you would import the JS and CSS files specified in library's installation instructions so that [Webpack][] knows about them:
-
-Edit [src/main/webapp/app/vendor.ts](src/main/webapp/app/vendor.ts) file:
-~~~
-import 'leaflet/dist/leaflet.js';
-~~~
-
-Edit [src/main/webapp/content/css/vendor.css](src/main/webapp/content/css/vendor.css) file:
-~~~
-@import '~leaflet/dist/leaflet.css';
-~~~
-
-Note: there are still few other things remaining to do for Leaflet that we won't detail here.
+[Bower][] is used to manage CSS and JavaScript dependencies used in this application. You can upgrade dependencies by
+specifying a newer version in [bower.json](bower.json). You can also run `bower update` and `bower install` to manage dependencies.
+Add the `-h` flag on any command to see how you can use it. For example, `bower update -h`.
 
 For further instructions on how to develop with JHipster, have a look at [Using JHipster in development][].
 
-### Using angular-cli
-
-You can also use [Angular CLI][] to generate some custom client code.
-
-For example, the following command:
-
-    ng generate component my-component
-
-will generate few files:
-
-    create src/main/webapp/app/my-component/my-component.component.html
-    create src/main/webapp/app/my-component/my-component.component.ts
-    update src/main/webapp/app/app.module.ts
 
 ## Building for production
 
@@ -97,10 +59,10 @@ To launch your application's tests, run:
 
 Unit tests are run by [Karma][] and written with [Jasmine][]. They're located in [src/test/javascript/](src/test/javascript/) and can be run with:
 
-    npm test
+    gulp test
 
 UI end-to-end tests are powered by [Protractor][], which is built on top of WebDriverJS. They're located in [src/test/javascript/e2e](src/test/javascript/e2e)
-and can be run by starting Spring Boot in one terminal (`./mvnw spring-boot:run`) and running the tests (`npm run e2e`) in a second one.
+and can be run by starting Spring Boot in one terminal (`./mvnw spring-boot:run`) and running the tests (`gulp itest`) in a second one.
 ### Other tests
 
 Performance tests are run by [Gatling][] and written in Scala. They're located in [src/test/gatling](src/test/gatling) and can be run with:
@@ -139,6 +101,7 @@ To configure CI for your project, run the ci-cd sub-generator (`yo jhipster:ci-c
 [JHipster 4.1.1 archive]: https://jhipster.github.io/documentation-archive/v4.1.1
 [Doing microservices with JHipster]: https://jhipster.github.io/documentation-archive/v4.1.1/microservices-architecture/
 [Using JHipster in development]: https://jhipster.github.io/documentation-archive/v4.1.1/development/
+[Service Discovery and Configuration with the JHipster-Registry]: https://jhipster.github.io/documentation-archive/v4.1.1/microservices-architecture/#jhipster-registry
 [Using Docker and Docker-Compose]: https://jhipster.github.io/documentation-archive/v4.1.1/docker-compose
 [Using JHipster in production]: https://jhipster.github.io/documentation-archive/v4.1.1/production/
 [Running tests page]: https://jhipster.github.io/documentation-archive/v4.1.1/running-tests/
@@ -147,8 +110,8 @@ To configure CI for your project, run the ci-cd sub-generator (`yo jhipster:ci-c
 [Gatling]: http://gatling.io/
 [Node.js]: https://nodejs.org/
 [Yarn]: https://yarnpkg.org/
-[Webpack]: https://webpack.github.io/
-[Angular CLI]: https://cli.angular.io/
+[Bower]: http://bower.io/
+[Gulp]: http://gulpjs.com/
 [BrowserSync]: http://www.browsersync.io/
 [Karma]: http://karma-runner.github.io/
 [Jasmine]: http://jasmine.github.io/2.0/introduction.html

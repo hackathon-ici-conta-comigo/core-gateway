@@ -97,7 +97,6 @@
 
         <sortpom-maven-plugin.version>2.5.0</sortpom-maven-plugin.version>
         <!-- Spring properties -->
-        <spring-cloud-stream.version>Brooklyn.SR2</spring-cloud-stream.version>
         <spring-cloud.version>Camden.SR6</spring-cloud.version>
         <spring-security-oauth.version>2.0.12.RELEASE</spring-security-oauth.version>
         <springfox.version>2.6.1</springfox.version>
@@ -107,13 +106,6 @@
 
     <dependencyManagement>
         <dependencies>
-            <dependency>
-                <groupId>org.springframework.cloud</groupId>
-                <artifactId>spring-cloud-stream-dependencies</artifactId>
-                <version>${spring-cloud-stream.version}</version>
-                <type>pom</type>
-                <scope>import</scope>
-            </dependency>
             <dependency>
                 <groupId>org.springframework.cloud</groupId>
                 <artifactId>spring-cloud-dependencies</artifactId>
@@ -350,20 +342,6 @@
             <groupId>org.springframework.boot</groupId>
             <artifactId>spring-boot-starter-data-jpa</artifactId>
         </dependency>
-        <!-- Kafka support -->
-        <dependency>
-            <groupId>org.springframework.cloud</groupId>
-            <artifactId>spring-cloud-stream</artifactId>
-        </dependency>
-        <dependency>
-            <groupId>org.springframework.cloud</groupId>
-            <artifactId>spring-cloud-stream-binder-kafka</artifactId>
-        </dependency>
-        <dependency>
-            <groupId>org.springframework.cloud</groupId>
-            <artifactId>spring-cloud-stream-test-support</artifactId>
-            <scope>test</scope>
-        </dependency>
         <dependency>
             <groupId>org.springframework.boot</groupId>
             <artifactId>spring-boot-starter-logging</artifactId>
@@ -404,10 +382,6 @@
                     <artifactId>spring-boot-starter-tomcat</artifactId>
                 </exclusion>
             </exclusions>
-        </dependency>
-        <dependency>
-            <groupId>org.springframework.boot</groupId>
-            <artifactId>spring-boot-starter-websocket</artifactId>
         </dependency>
         <dependency>
             <groupId>org.springframework.security.oauth</groupId>
@@ -472,6 +446,14 @@
         </dependency>
         <dependency>
             <groupId>org.springframework.cloud</groupId>
+            <artifactId>spring-cloud-starter-eureka</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>org.springframework.cloud</groupId>
+            <artifactId>spring-cloud-starter-config</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>org.springframework.cloud</groupId>
             <artifactId>spring-cloud-security</artifactId>
         </dependency>
         <dependency>
@@ -505,10 +487,6 @@
         <dependency>
             <groupId>org.springframework.security</groupId>
             <artifactId>spring-security-data</artifactId>
-        </dependency>
-        <dependency>
-            <groupId>org.springframework.security</groupId>
-            <artifactId>spring-security-messaging</artifactId>
         </dependency>
         <!-- cucumber -->
         <dependency>
@@ -837,6 +815,8 @@
                                         <goals>
                                             <goal>install-node-and-npm</goal>
                                             <goal>npm</goal>
+                                            <goal>bower</goal>
+                                            <goal>gulp</goal>
                                         </goals>
                                     </pluginExecutionFilter>
                                     <action>
@@ -862,40 +842,6 @@
             <properties>
                 <profile.swagger>,swagger</profile.swagger>
             </properties>
-        </profile>
-        <profile>
-            <id>webpack</id>
-            <build>
-                <plugins>
-                    <plugin>
-                        <groupId>com.github.eirslett</groupId>
-                        <artifactId>frontend-maven-plugin</artifactId>
-                        <version>${frontend-maven-plugin.version}</version>
-                        <executions>
-                            <execution>
-                                <id>install node and npm</id>
-                                <goals>
-                                    <goal>install-node-and-npm</goal>
-                                </goals>
-                                <configuration>
-                                    <nodeVersion>${node.version}</nodeVersion>
-                                    <npmVersion>${npm.version}</npmVersion>
-                                </configuration>
-                            </execution>
-                            <execution>
-                                <id>webpack build dev</id>
-                                <goals>
-                                    <goal>npm</goal>
-                                </goals>
-                                <phase>generate-resources</phase>
-                                <configuration>
-                                    <arguments>run webpack:build:dev</arguments>
-                                </configuration>
-                            </execution>
-                        </executions>
-                    </plugin>
-                </plugins>
-            </build>
         </profile>
         <profile>
             <id>dev</id>
@@ -997,13 +943,31 @@
                                 </configuration>
                             </execution>
                             <execution>
-                                <id>webpack build prod</id>
+                                <id>bower install</id>
                                 <goals>
-                                    <goal>npm</goal>
+                                    <goal>bower</goal>
                                 </goals>
-                                <phase>generate-resources</phase>
                                 <configuration>
-                                    <arguments>run webpack:prod</arguments>
+                                    <arguments>install --no-color</arguments>
+                                </configuration>
+                            </execution>
+                            <execution>
+                                <id>gulp build</id>
+                                <goals>
+                                    <goal>gulp</goal>
+                                </goals>
+                                <configuration>
+                                    <arguments>build --no-notification</arguments>
+                                </configuration>
+                            </execution>
+                            <execution>
+                                <id>gulp test</id>
+                                <goals>
+                                    <goal>gulp</goal>
+                                </goals>
+                                <phase>test</phase>
+                                <configuration>
+                                    <arguments>test --no-notification</arguments>
                                 </configuration>
                             </execution>
                         </executions>
