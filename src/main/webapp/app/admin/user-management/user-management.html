@@ -12,8 +12,6 @@
         <table class="jh-table table table-striped">
             <thead>
             <tr jh-sort="vm.predicate" ascending="vm.reverse" callback="vm.transition()">
-                <th jh-sort-by="id"><span data-translate="global.field.id">ID</span><span class="glyphicon glyphicon-sort"></span></th>
-                <th jh-sort-by="login"><span data-translate="userManagement.login">Login</span> <span class="glyphicon glyphicon-sort"></span></th>
                 <th jh-sort-by="email"><span data-translate="userManagement.email">Email</span> <span class="glyphicon glyphicon-sort"></span></th>
                 <th></th>
                 <th  jh-sort-by="langKey"> <span data-translate="userManagement.langKey">Lang Key</span> <span class="glyphicon glyphicon-sort"></span></th>                <th><span data-translate="userManagement.profiles">Profiles</span></th>                <th jh-sort-by="createdDate"><span data-translate="userManagement.createdDate">Created Date</span> <span class="glyphicon glyphicon-sort"></span></th>
@@ -24,14 +22,12 @@
             </thead>
             <tbody>
             <tr ng-repeat="user in vm.users track by user.id">
-                <td><a ui-sref="user-management-detail({login:user.login})">{{user.id}}</a></td>
-                <td>{{user.login}}</td>
-                <td>{{user.email}}</td>
+                <td><a ui-sref="user-management-detail({login:user.email})">{{user.email}}</a></td>
                 <td>
                     <button class="btn btn-danger btn-xs" ng-click="vm.setActive(user, true)" ng-show="!user.activated"
                             data-translate="userManagement.deactivated">Deactivated</button>
                     <button class="btn btn-success btn-xs" ng-click="vm.setActive(user, false)" ng-show="user.activated"
-                            ng-disabled="vm.currentAccount.login==user.login" data-translate="userManagement.activated">Activated</button>
+                            ng-disabled="vm.currentAccount.email==user.email" data-translate="userManagement.activated">Activated</button>
                 </td>
                 <td>{{user.langKey}}</td>
                 <td>
@@ -45,20 +41,20 @@
                 <td class="text-right">
                     <div class="btn-group flex-btn-group-container">
                         <button type="submit"
-                                ui-sref="user-management-detail({login:user.login})"
+                                ui-sref="user-management-detail({login:user.email})"
                                 class="btn btn-info btn-sm">
                             <span class="glyphicon glyphicon-eye-open"></span>
                             <span class="hidden-xs hidden-sm" data-translate="entity.action.view"></span>
                         </button>
                         <button type="submit"
-                                ui-sref="user-management.edit({login:user.login})"
+                                ui-sref="user-management.edit({login:user.email})"
                                 class="btn btn-primary btn-sm">
                             <span class="glyphicon glyphicon-pencil"></span>
                             <span class="hidden-xs hidden-sm" data-translate="entity.action.edit"></span>
                         </button>
                         <button type="submit"
-                                ui-sref="user-management.delete({login:user.login})"
-                                class="btn btn-danger btn-sm" ng-disabled="vm.currentAccount.login==user.login">
+                                ui-sref="user-management.delete({login:user.email})"
+                                class="btn btn-danger btn-sm" ng-disabled="vm.currentAccount.email==user.email">
                             <span class="glyphicon glyphicon-remove-circle"></span>
                             <span class="hidden-xs hidden-sm" data-translate="entity.action.delete"></span>
                         </button>

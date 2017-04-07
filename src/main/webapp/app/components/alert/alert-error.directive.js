@@ -53,7 +53,7 @@
                 }).sort();
                 var errorHeader = httpResponse.headers(headers[0]);
                 var entityKey = httpResponse.headers(headers[1]);
-                if (errorHeader) {
+                if (errorHeader && headers && headers.length > 0) {
                     var entityName = $translate.instant('global.menu.entities.' + entityKey);
                     addErrorAlert(errorHeader, errorHeader, {entityName: entityName});
                 } else if (httpResponse.data && httpResponse.data.fieldErrors) {

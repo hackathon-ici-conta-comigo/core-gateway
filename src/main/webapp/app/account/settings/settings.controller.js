@@ -22,7 +22,7 @@
             return {
                 activated: account.activated,
                 email: account.email,
-                firstName: account.firstName,
+                name: account.name,
                 langKey: account.langKey,
                 lastName: account.lastName,
                 login: account.login
